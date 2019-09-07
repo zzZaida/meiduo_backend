@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
 
-    # url(r'^$', views.)
+    # http://127.0.0.1:8000/meiduo_admin/authorizations/
+    url(r'^authorizations/$', views.AdminLoginAPIView.as_view())
 ]

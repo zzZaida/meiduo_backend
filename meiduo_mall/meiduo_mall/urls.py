@@ -19,7 +19,7 @@ from django.contrib import admin
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
-    url(r'^', include('apps.meiduo_admin.urls', namespace='meiduo_admin')),
+    url(r'^meiduo_admin/', include('apps.meiduo_admin.urls', namespace='meiduo_admin')),
     url(r'^', include('apps.users.urls', namespace='users')),
     url(r'^', include('apps.contents.urls', namespace='contents')),
     url(r'^', include('apps.verifications.urls', namespace='verifications')),

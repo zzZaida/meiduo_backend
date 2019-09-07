@@ -46,6 +46,11 @@ INSTALLED_APPS = [
     'apps.payment',
     'haystack',
     'django_crontab',
+
+    'rest_framework',
+    'apps.meiduo_admin',
+    # 跨域 CORS
+    'corsheaders',
 ]
 
 CRONJOBS = [
@@ -54,6 +59,8 @@ CRONJOBS = [
 ]
 
 MIDDLEWARE = [
+
+    'corsheaders.middleware.CorsMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -65,13 +72,8 @@ MIDDLEWARE = [
 ]
 
 # CORS
-CORS_ORIGIN_WHITELIST = (
-    'http://127.0.0.1:8080',
-    'http://localhost:8080',
-    'http://www.meiduo.site:8080',
-    'http://www.meiduo.site:8000'
-)
-CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
+# 表示允许任何人进行跨域访问
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'meiduo_mall.urls'
 
@@ -280,7 +282,7 @@ ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/payment/keys/alipay_public
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),

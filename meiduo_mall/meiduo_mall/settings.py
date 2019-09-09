@@ -75,6 +75,15 @@ MIDDLEWARE = [
 # 表示允许任何人进行跨域访问
 CORS_ORIGIN_ALLOW_ALL = True
 
+# 白名单:允许谁进行跨域
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+    'http://www.meiduo.site:8080',  # 必须要加
+    'http://www.meiduo.site:8000'
+)
+CORS_ALLOW_CREDENTIALS = True  # 允许跨域携带cookie
+
 ROOT_URLCONF = 'meiduo_mall.urls'
 
 TEMPLATES = [
@@ -280,9 +289,12 @@ ALIPAY_RETURN_URL = 'http://www.meiduo.site:8000/payment/status/'
 APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/payment/keys/app_private_key.pem')
 ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/payment/keys/alipay_public_key.pem')
 
+
+
 REST_FRAMEWORK = {
+    # 认证方案 优先是JWT
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
@@ -290,7 +302,11 @@ REST_FRAMEWORK = {
 
 import datetime
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER':'apps.meiduo_admin.utils.jwt_response_payload_handler',
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
-}
 
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=15),
+    # 默认返回token
+    'JWT_RESPONSE_PAYLOAD_HANDLER':
+    # 'rest_framework_jwt.utils.jwt_response_payload_handler',
+    'apps.meiduo_admin.utils.jwt_response_payload_handler',
+
+}

@@ -9,20 +9,41 @@ class UsernameMobileModelBackend(ModelBackend):
 
     def authenticate(self, request, username=None, password=None, **kwargs):
 
+        # 我们如果能区分前台请求  和  后台请求
+        if request is None:
+            # 后台  --->  request = None
 
-        # username 有可能是 用户名也有可能是手机号
-        # 1.区分 username
-        if re.match(r'1[3-9]\d{9}',username):
-            # username 是手机号,根据手机号查询
-            user = User.objects.get(mobile=username)
+            # username 有可能是 用户名也有可能是手机号
+            # 1.区分 username
+            if re.match(r'1[3-9]\d{9}',username):
+                # username 是手机号,根据手机号查询
+                user = User.objects.get(mobile=username, is_staff=True)
+            else:
+                user = User.objects.get(username=username, is_staff=True)
+
+            #2.验证密码是否正确
+            if user and user.check_password(password):
+                return user
+
+            return None
+
         else:
-            user = User.objects.get(username=username)
+            # 前台  ---> request = <WSGIRequest: POST '/login/'>
 
-        #2.验证密码是否正确
-        if user and user.check_password(password):
-            return user
+            # username 有可能是 用户名也有可能是手机号
+            # 1.区分 username
+            if re.match(r'1[3-9]\d{9}', username):
+                # username 是手机号,根据手机号查询
+                user = User.objects.get(mobile=username)
+            else:
+                user = User.objects.get(username=username)
 
-        return None
+            # 2.验证密码是否正确
+            if user and user.check_password(password):
+                return user
+
+            return None
+
 
 
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer,BadData

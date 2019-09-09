@@ -15,5 +15,10 @@ urlpatterns = [
 
     ##########################statistical#########################
     url(r'^statistical/total_count/', statistical.UserAllCountAPIView.as_view()),
+    url(r'^statistical/day_increment/', statistical.UserDayAddCountAPIView.as_view()),
+    url(r'^statistical/day_active/', statistical.UserDayActiveCountAPIView.as_view()),
+    url(r'^statistical/day_orders/', statistical.UserDayOrdersCountAPIView.as_view()),
+    url(r'^statistical/month_increment/', statistical.UserMonthCountAPIView.as_view()),
+    url(r'^statistical/goods_day_views/', statistical.GoodsDayViewCountAPIView.as_view()),
 
 ]

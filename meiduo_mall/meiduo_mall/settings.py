@@ -308,5 +308,7 @@ JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER':
     # 'rest_framework_jwt.utils.jwt_response_payload_handler',
     'apps.meiduo_admin.utils.jwt_response_payload_handler',
+    # 请求头设置权限登录
+    # 'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 
 }

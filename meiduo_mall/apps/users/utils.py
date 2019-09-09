@@ -1,7 +1,5 @@
 import re
-
 from django.contrib.auth.backends import ModelBackend
-
 from apps.users.models import User
 
 

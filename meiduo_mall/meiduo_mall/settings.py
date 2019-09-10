@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['www.meiduo.site','192.168.229.148','127.0.0.1']
 
-
+# $ sudo docker run -dti --name storage --network=host -e TRACKER_SERVER=192.168.88.134:22122 -v /var/fdfs/storage:/var/fdfs delron/fastdfs storage
 # Application definition
 
 INSTALLED_APPS = [

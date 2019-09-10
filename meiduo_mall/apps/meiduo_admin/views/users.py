@@ -32,10 +32,25 @@ class ListAPIView(mixins.ListModelMixin,
 """
 
 
-
 class UserListView(ListAPIView):
 
-    queryset = User.objects.all()
+    # queryset = User.objects.all()
+    """
+    <QuerySet [
+        <User: itcast>,
+        <User: itcast_01>,
+        <User: itcast_02>,
+        <User: itcast_03>,
+        <User: itcast_04>
+    ]>
+    """
+    def get_queryset(self):
+        keyword = self.request.query_params.get('keyword')
+
+        if keyword:
+            return User.objects.filter(username__contains=keyword)
+
+        return User.objects.all()
 
     serializer_class = UserSerializer
 

@@ -5,6 +5,7 @@ from . import views
 from rest_framework_jwt.views import obtain_jwt_token
 
 from .views import statistical
+from .views import users
 
 urlpatterns = [
 
@@ -20,5 +21,10 @@ urlpatterns = [
     url(r'^statistical/day_orders/', statistical.UserDayOrdersCountAPIView.as_view()),
     url(r'^statistical/month_increment/', statistical.UserMonthCountAPIView.as_view()),
     url(r'^statistical/goods_day_views/', statistical.GoodsDayViewCountAPIView.as_view()),
+
+
+    ##########################User 相关#########################
+    url(r'^users/$', users.UserListView.as_view()),
+
 
 ]

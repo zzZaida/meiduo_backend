@@ -32,6 +32,12 @@ urlpatterns = [
     ###########################image 相关##########################
     url(r'^skus/simple/$', image.SimpleSKUListAPIView.as_view()),
 
+
+    ############################sku相关####################################
+    url(r'^skus/categories/$', sku.ThreeCategoryListAPIView.as_view()),
+    url(r'^goods/simple/$', sku.SPUListAPIView.as_view()),
+
+
 ]
 
 

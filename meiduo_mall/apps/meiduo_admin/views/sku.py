@@ -1,7 +1,8 @@
+from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ModelViewSet
 
-from apps.goods.models import SKU
-from apps.meiduo_admin.serializers.sku import SKUSerializer
+from apps.goods.models import SKU, GoodsCategory, SPU
+from apps.meiduo_admin.serializers.sku import SKUSerializer, GoodsCategorySerializer, SPUSerializer
 from apps.meiduo_admin.utils import PageNum
 
 
@@ -19,3 +20,35 @@ class SKUModelViewSet(ModelViewSet):
     serializer_class = SKUSerializer
 
     pagination_class = PageNum
+
+
+"""
+获取三级分类数据
+GoodsCategory
+GoodsCategory.objects.filter(parent_id__gt=37)
+GoodsCategory.objects.filter(subs=None)
+
+
+
+class ListAPIView(mixins.ListModelMixin,
+                  GenericAPIView):
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+"""
+class ThreeCategoryListAPIView(ListAPIView):
+
+    queryset = GoodsCategory.objects.filter()
+
+    serializer_class = GoodsCategorySerializer
+
+
+"""
+获取所有的SPU的数据
+"""
+class SPUListAPIView(ListAPIView):
+
+    queryset = SPU.objects.all()
+
+    serializer_class = SPUSerializer

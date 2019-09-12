@@ -69,6 +69,7 @@ class CreateModelMixin:
 
 
 # 查询所有用户 和   增加新用户 合并
+from rest_framework.generics import ListCreateAPIView
 class UserListAPIView(CreateModelMixin, ListAPIView):
 
     def get_queryset(self):
@@ -79,6 +80,10 @@ class UserListAPIView(CreateModelMixin, ListAPIView):
 
         return User.objects.all()
 
+    """
+    如果你只使用一个序列化器可以设置属性
+    如果你需要使用多个序列化器则使用 方法
+    """
     # serializer_class = UserSerializer
     # serializer_class = UserAddSerializer
     def get_serializer_class(self):

@@ -123,6 +123,7 @@ class SPUSpecification(BaseModel):
     """商品SPU规格"""
     spu = models.ForeignKey(SPU, on_delete=models.CASCADE, related_name='specs', verbose_name='商品SPU')
     name = models.CharField(max_length=20, verbose_name='规格名称')
+    # options = [SpecificationOption, SpecificationOption,SpecificationOption....]
 
     class Meta:
         db_table = 'tb_spu_specification'

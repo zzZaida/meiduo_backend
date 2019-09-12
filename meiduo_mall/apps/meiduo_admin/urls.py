@@ -8,6 +8,8 @@ from .views import statistical
 from .views import users
 from .views import image
 from .views import sku
+from .views import spu
+
 
 urlpatterns = [
 
@@ -36,6 +38,8 @@ urlpatterns = [
     ############################sku相关####################################
     url(r'^skus/categories/$', sku.ThreeCategoryListAPIView.as_view()),
     url(r'^goods/simple/$', sku.SPUListAPIView.as_view()),
+    # 规格信息获取
+    url(r'^goods/(?P<pk>\d+)/specs/$', sku.SPUSpecsAPIView.as_view()),
 
 
 ]
@@ -62,5 +66,13 @@ router.register(r'skus', sku.SKUModelViewSet, basename='skus')
 urlpatterns += router.urls
 
 
+#########################SPU路由################################
+# from rest_framework.routers import DefaultRouter
+#
+# router = DefaultRouter()
+#
+# router.register(r'goods', spu.SPUGoodsPAIView.as_view, basename='goods')
+#
+# urlpatterns += router.urls
 
 

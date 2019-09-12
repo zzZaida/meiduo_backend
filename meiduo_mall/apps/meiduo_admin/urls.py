@@ -9,6 +9,7 @@ from .views import users
 from .views import image
 from .views import sku
 from .views import spu
+from .views import order
 
 
 urlpatterns = [
@@ -62,6 +63,16 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 
 router.register(r'skus', sku.SKUModelViewSet, basename='skus')
+
+urlpatterns += router.urls
+
+
+#####################Order路由###########################
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register(r'orders', order.OrderModelViewSet, basename='orders')
 
 urlpatterns += router.urls
 

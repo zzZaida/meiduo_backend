@@ -71,12 +71,22 @@ class SPUListAPIView(ListAPIView):
     GET  meiduo_admin/goods/(?P<pk>\d+)/specs/
 """
 
-class SPUSpecsAPIView(APIView):
+# class SPUSpecsAPIView(APIView):
+#
+#     def get(self, request, pk):
+#
+#         specs = SPUSpecification.objects.filter(spu_id=pk)
+#
+#         s = SPUSpecificationSerializer(specs, many=True)
+#
+#         return Response(s.data)
 
-    def get(self, request, pk):
+from rest_framework.generics import ListAPIView,RetrieveAPIView
+class SPUSpecsAPIView(ListAPIView):
 
-        specs = SPUSpecification.objects.filter(spu_id=pk)
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        return SPUSpecification.objects.filter(spu_id=pk)
 
-        s = SPUSpecificationSerializer(specs, many=True)
 
-        return Response(s.data)
+    serializer_class = SPUSpecificationSerializer

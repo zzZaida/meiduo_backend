@@ -38,27 +38,55 @@ class SKUSerializer(serializers.ModelSerializer):
         if validated_data['specs']:
             specs = validated_data.get('specs')
             del validated_data['specs']
-        sku = SKU.objects.create(**validated_data)
 
-        # 2.写入sku对应的规格选项信息
+        from django.db import transaction
+        with transaction.atomic():
+            save_id = transaction.savepoint()
+            try:
+                sku = SKU.objects.create(**validated_data)
+
+                # 2.写入sku对应的规格选项信息
+                for spec in specs:
+                    SKUSpecification.objects.create(
+                        sku=sku,
+                        spec_id=spec.get('spec_id'),
+                        option_id=spec.get('option_id')
+                    )
+
+                # 调用异步方法之前,自己添加一个默认图片
+                sku.default_image='group1/M00/00/02/CtM3BVrRdssdhfjDFGhfweu00672544'
+                sku.save()
+            except Exception as e:
+                transaction.savepoint_rollback(save_id)
+            else:
+                transaction.savepoint_commit(save_id)
+                # 触发一个异步任务
+                from celery_tasks.html.tasks import generate_static_sku_detail_html
+                generate_static_sku_detail_html.delay(sku.id)
+
+        return sku
+
+    def update(self, instance, validated_data):
+
+        # 1.先更新sku
+        # instance.caption=validated_data.get('caption',instance.caption)
+        # instance.category_id=validated_data.get('category_id',instance.category_id)
+        # instance.save()
+        # 判断是否存在,存在则先获取,再删除
+        if validated_data['specs']:
+            specs = validated_data.get('specs')
+            del validated_data['specs']
+
+        SKU.objects.filter(id=instance.id).update(**validated_data)
+
+        # 再更新specs 规格信息
         for spec in specs:
-            SKUSpecification.objects.create(
-                sku=sku,
+            SKUSpecification.objects.filter(sku_id=instance.id, spec_id=spec.get('spec_id')).update(
                 spec_id=spec.get('spec_id'),
                 option_id=spec.get('option_id')
             )
 
-        # 调用异步方法之前,自己添加一个默认图片
-        sku.default_image='group1/M00/00/02/CtM3BVrRdssdhfjDFGhfweu00672544'
-        sku.save()
-
-        # 触发一个异步任务
-        from celery_tasks.html.tasks import generate_static_sku_detail_html
-        generate_static_sku_detail_html.delay(sku.id)
-
-        return sku
-
-
+        return instance
 
 class GoodsCategorySerializer(serializers.ModelSerializer):
 

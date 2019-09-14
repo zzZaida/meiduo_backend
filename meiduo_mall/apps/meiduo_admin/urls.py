@@ -10,6 +10,7 @@ from .views import image
 from .views import sku
 from .views import spu
 from .views import order
+from .views import permission
 
 
 urlpatterns = [
@@ -87,3 +88,12 @@ urlpatterns += router.urls
 # urlpatterns += router.urls
 
 
+
+#####################权限路由###########################
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register(r'permission/perms', permission.PermissionModelViewSet, basename='permission')
+
+urlpatterns += router.urls

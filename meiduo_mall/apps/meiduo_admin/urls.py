@@ -44,6 +44,9 @@ urlpatterns = [
     url(r'^goods/(?P<pk>\d+)/specs/$', sku.SPUSpecsAPIView.as_view()),
 
 
+    ##########################权限相关#########################
+    url(r'^permission/content_types/$', permission.ContentTypeAPIView.as_view()),
+
 ]
 
 

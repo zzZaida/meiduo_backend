@@ -12,6 +12,7 @@ from .views import spu
 from .views import order
 from .views import permission
 from .views import group
+from .views import admin
 
 
 urlpatterns = [
@@ -51,6 +52,8 @@ urlpatterns = [
     ##########################组相关#########################
     url(r'^permission/simple/$', group.PermissionAllListAPIView.as_view()),
 
+    #分组
+    url(r'^permission/groups/simple/$', admin.GroupAllListAPIView.as_view()),
 
 ]
 
@@ -111,6 +114,15 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
-router.register(r'permission/groups', group.GroupModelViewSet, basename='groups')
+router.register(r'permission/groups', group.GroupModelViewSet, basename='group')
+
+urlpatterns += router.urls
+
+#########################管理员路由########################################
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register(r'permission/admins', admin.AdminModelViewSet, basename='admin')
 
 urlpatterns += router.urls

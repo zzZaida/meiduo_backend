@@ -11,6 +11,7 @@ from .views import sku
 from .views import spu
 from .views import order
 from .views import permission
+from .views import group
 
 
 urlpatterns = [
@@ -46,6 +47,10 @@ urlpatterns = [
 
     ##########################权限相关#########################
     url(r'^permission/content_types/$', permission.ContentTypeAPIView.as_view()),
+
+    ##########################组相关#########################
+    url(r'^permission/simple/$', group.PermissionAllListAPIView.as_view()),
+
 
 ]
 
@@ -98,5 +103,14 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 
 router.register(r'permission/perms', permission.PermissionModelViewSet, basename='permission')
+
+urlpatterns += router.urls
+
+#########################组路由########################################
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register(r'permission/groups', group.GroupModelViewSet, basename='groups')
 
 urlpatterns += router.urls

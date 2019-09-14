@@ -20,6 +20,9 @@ CreateModelMixin(serializer.save()触发--->ModelSerializer.create())
 """
 class UserAddSerializer(serializers.ModelSerializer):
 
+    # 继承ModelSerializer  可以自己添加字段
+    password2 = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
         """
@@ -29,8 +32,8 @@ class UserAddSerializer(serializers.ModelSerializer):
           "email": this.userForm.email
 
         """
-
-        fields = ['username', 'password', 'mobile', 'email']
+        # AssertionError: The field 'password2' was declared on serializer UserAddSerializer, but has not been included in the 'fields' option.
+        fields = ['username', 'password', 'mobile', 'email', 'password2']
 
         extra_kwargs = {
             # 只在反序列化(字典-->对象)的时候使用
@@ -38,11 +41,24 @@ class UserAddSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
+    # AssertionError at /meiduo_admin/users/.validate() should return the validated data
+    def validate(self, attrs):
+
+        password = attrs.get('password')
+        password2 = attrs.get('password2')
+
+        if password != password2:
+            raise serializers.ValidationError('密码不一致')
+        return attrs
 
     # 系统的ModelSerializer.create方法没有设置为密码加密--重写
     # instance = ModelClass._default_manager.create(**validated_data)
     def create(self, validated_data):
 
+        # 模型保存----validated_data{'password2':'1234567890'} 不能入库
+        # user = self.model(username=username, email=email, **extra_fields)
+        # TypeError: 'password2' is an invalid keyword argument for this function(无效关键字参数)
+        del validated_data['password2']
         user = User.objects.create_user(**validated_data)
 
         return user

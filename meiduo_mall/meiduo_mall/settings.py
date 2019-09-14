@@ -25,7 +25,7 @@ SECRET_KEY = '962mcp#v0+pq5ye2m@1wvw1r)%_z0%e$_qq=a$2dl52rs%6cg1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.meiduo.site','192.168.229.148','127.0.0.1']
+ALLOWED_HOSTS = ['www.meiduo.site','192.168.88.135','127.0.0.1']
 
 # $ sudo docker run -dti --name storage --network=host -e TRACKER_SERVER=192.168.88.134:22122 -v /var/fdfs/storage:/var/fdfs delron/fastdfs storage
 # Application definition

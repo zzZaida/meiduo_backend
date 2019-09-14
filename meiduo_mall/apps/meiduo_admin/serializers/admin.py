@@ -30,3 +30,13 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+    def update(self, instance, validated_data):
+        # 先调用父类,让父类帮我们实现必要的更新的
+        super().update(instance, validated_data)
+
+        if validated_data['password']:
+            instance.set_password(validated_data.get('password'))
+            instance.save()
+
+        return instance

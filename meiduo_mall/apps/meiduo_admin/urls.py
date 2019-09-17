@@ -16,6 +16,7 @@ from .views import admin
 from .views import spec
 from .views import option
 from .views import channel
+from .views import brand
 
 
 urlpatterns = [
@@ -104,12 +105,23 @@ router.register(r'goods/specs', spec.SpecViewSet, basename='specs')
 
 urlpatterns += router.urls
 
+
 ##########################channel路由################################
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
 router.register(r'goods/channels', channel.GoodsChannelViewSet, basename='channels')
+
+urlpatterns += router.urls
+
+
+##########################Brand路由################################
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register(r'goods/brands', brand.BrandViewSet, basename='brands')
 
 urlpatterns += router.urls
 

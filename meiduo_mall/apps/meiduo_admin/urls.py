@@ -13,6 +13,7 @@ from .views import order
 from .views import permission
 from .views import group
 from .views import admin
+from .views import spec
 
 
 urlpatterns = [
@@ -85,6 +86,16 @@ router.register(r'skus', sku.SKUModelViewSet, basename='skus')
 urlpatterns += router.urls
 
 
+########################spec路由###################################
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register(r'goods/specs', spec.SpecViewSet, basename='specs')
+
+urlpatterns += router.urls
+
+
 ##########################SPU路由################################
 from rest_framework.routers import DefaultRouter
 
@@ -93,6 +104,8 @@ router = DefaultRouter()
 router.register(r'goods', spu.SPUGoodsViewSet, basename='spu')
 
 urlpatterns += router.urls
+
+
 
 
 #####################Order路由###########################

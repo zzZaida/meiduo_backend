@@ -39,14 +39,20 @@ urlpatterns = [
     url(r'^skus/simple/$', image.SimpleSKUListAPIView.as_view()),
 
 
-    ############################sku相关####################################
+    ############################sku相关#################################
     url(r'^skus/categories/$', sku.ThreeCategoryListAPIView.as_view()),
     url(r'^goods/simple/$', sku.SPUListAPIView.as_view()),
     # 规格信息获取
     url(r'^goods/(?P<pk>\d+)/specs/$', sku.SPUSpecsAPIView.as_view()),
 
+    #############################spu相关#################################
+    url(r'^goods/brands/simple/$', spu.SPUBrandAPIView.as_view()),
+    # 获取一级分类信息
+    url(r'^goods/channel/categories/$', spu.ChannelCategorysView.as_view()),
+    url(r'^goods/channel/categories/(?P<id>\d+)/$', spu.ChannelCategoriesView.as_view()),
 
-    ##########################权限相关#########################
+
+    ##########################权限相关#############################
     url(r'^permission/content_types/$', permission.ContentTypeAPIView.as_view()),
 
     ##########################组相关#########################
@@ -79,6 +85,16 @@ router.register(r'skus', sku.SKUModelViewSet, basename='skus')
 urlpatterns += router.urls
 
 
+##########################SPU路由################################
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register(r'goods', spu.SPUGoodsViewSet, basename='spu')
+
+urlpatterns += router.urls
+
+
 #####################Order路由###########################
 from rest_framework.routers import DefaultRouter
 
@@ -87,17 +103,6 @@ router = DefaultRouter()
 router.register(r'orders', order.OrderModelViewSet, basename='orders')
 
 urlpatterns += router.urls
-
-
-#########################SPU路由################################
-# from rest_framework.routers import DefaultRouter
-#
-# router = DefaultRouter()
-#
-# router.register(r'goods', spu.SPUGoodsPAIView.as_view, basename='goods')
-#
-# urlpatterns += router.urls
-
 
 
 #####################权限路由###########################

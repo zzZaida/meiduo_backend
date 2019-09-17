@@ -14,6 +14,7 @@ from .views import permission
 from .views import group
 from .views import admin
 from .views import spec
+from .views import option
 
 
 urlpatterns = [
@@ -52,6 +53,9 @@ urlpatterns = [
     url(r'^goods/channel/categories/$', spu.ChannelCategorysView.as_view()),
     url(r'^goods/channel/categories/(?P<id>\d+)/$', spu.ChannelCategoriesView.as_view()),
 
+    #############################规格信息相关#################################
+    url(r'^goods/specs/simple/$', option.SPUSpecificationAPIView.as_view()),
+
 
     ##########################权限相关#############################
     url(r'^permission/content_types/$', permission.ContentTypeAPIView.as_view()),
@@ -65,7 +69,7 @@ urlpatterns = [
 ]
 
 
-# 图片管理的url
+# #####################图片管理的url###########################
 from rest_framework.routers import DefaultRouter
 
 # 创建router实例对象
@@ -102,6 +106,15 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 
 router.register(r'goods', spu.SPUGoodsViewSet, basename='spu')
+
+urlpatterns += router.urls
+
+############################规格选项路由##################################
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register(r'specs/options', option.SpecificationOptionViewSet, basename='options')
 
 urlpatterns += router.urls
 
